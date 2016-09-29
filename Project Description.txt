@@ -1,5 +1,4 @@
-Web API
-
-Web Client (MVC WebApp)
-
+The project includes:
+  - Prototype Web API for IQC app (Incoming Quality Control - used for entering QA inspection records and evaluating suppliers quality)
+  - Prototype Web Client (MVC WebApp)
 API supports CRUD operations, sorting, paging, filtering
