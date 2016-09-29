@@ -1,0 +1,175 @@
+﻿@model IQCWeb.WebClient.Models.DmrViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DMR</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt >
+            DMR No.
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DMR.DMR)
+        </dd>
+
+        <dt>
+            DMR Date
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DMR.DmrDate, "ShortDateTime")
+        </dd>
+
+        <dt>
+            Reason
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DMR.Reasons.ReasonCode)
+        </dd>
+              
+       
+        <dt>
+            Approved By
+        </dt>
+
+        <dd>
+            @if (Model.DMR.ApprovedBy != null && Model.DMR.ApprovedBy != 0)
+            {
+                @((Model.Employees as List<IQCWeb.DTO.Employees>)
+                                .First(cs => cs.EmployeeCounter == Model.DMR.ApprovedBy).Name)
+            }
+        </dd>
+
+
+        <dt>
+            Engineering
+        </dt>
+
+        <dd>
+            @if (Model.DMR.Engineering != null && Model.DMR.Engineering != 0)
+            {
+                @((Model.Employees as List<IQCWeb.DTO.Employees>)
+                                    .First(cs => cs.EmployeeCounter == Model.DMR.Engineering).Name)
+            }
+        </dd>
+
+        <dt>
+            MFR Engineering
+        </dt>
+
+        <dd>
+            @if (Model.DMR.MfrEngineering != null && Model.DMR.MfrEngineering != 0)
+            {
+                @((Model.Employees as List<IQCWeb.DTO.Employees>)
+                                    .First(cs => cs.EmployeeCounter == Model.DMR.MfrEngineering).Name)
+            }
+        </dd>
+
+        <dt>
+            Prod Control
+        </dt>
+
+        <dd>
+            @if (Model.DMR.ProdControl != null && Model.DMR.ProdControl != 0)
+            {
+                @((Model.Employees as List<IQCWeb.DTO.Employees>)
+                                    .First(cs => cs.EmployeeCounter == Model.DMR.ProdControl).Name)
+            }
+        </dd>
+
+        <dt>
+            Purchasing
+        </dt>
+
+        <dd>
+            @if (Model.DMR.Purchasing != null && Model.DMR.Purchasing != 0)
+            {
+                @((Model.Employees as List<IQCWeb.DTO.Employees>)
+                                    .First(cs => cs.EmployeeCounter == Model.DMR.Purchasing).Name)
+            }
+        </dd>
+
+        <dt>
+            QA Engineering
+        </dt>
+
+        <dd>
+            @if (Model.DMR.QAEngineering!= null && Model.DMR.QAEngineering != 0)
+            {
+                @((Model.Employees as List<IQCWeb.DTO.Employees>)
+                                    .First(cs => cs.EmployeeCounter == Model.DMR.QAEngineering).Name)
+            }
+        </dd>
+
+        <dt>
+            MRB Coordinator
+        </dt>
+
+        <dd>
+            @if (Model.DMR.MrbCoordinator != null && Model.DMR.MrbCoordinator != 0)
+            {
+                @((Model.Employees as List<IQCWeb.DTO.Employees>)
+                                    .First(cs => cs.EmployeeCounter == Model.DMR.MrbCoordinator).Name)
+            }
+        </dd>
+
+
+
+        <dt>
+            Disposition Date
+        </dt>
+
+        <dd>
+            @{DateTime DefaultDate = new DateTime(1950, 1, 1);}
+            @if (Model.DMR.DispDate != null && Model.DMR.DispDate != DefaultDate)
+            {
+                @Html.DisplayFor(model => model.DMR.DispDate, "ShortDateTime")
+            }
+        </dd>
+
+            
+
+        <dt>
+            Edistro
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DMR.Edistro)
+        </dd>
+
+        <dt>
+           Sample Qty
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DMR.QtyDefs)
+        </dd>
+
+        <dt>
+            Qty Received
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DMR.QtyRejected)
+        </dd>
+
+          
+
+
+
+    </dl>
+
+</div>
+<p>
+    @Html.ActionLink("Inspection Details", "Details", "Inspections", new { id = Model.DMR.InspID }, null)
+    <p></p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

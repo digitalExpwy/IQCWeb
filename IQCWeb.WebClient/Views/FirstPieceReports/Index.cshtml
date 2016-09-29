@@ -1,0 +1,97 @@
+﻿@model IQCWeb.WebClient.Models.FprViewModel
+
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>First Piece Reports</h2>
+
+<p>    
+</p>
+<table class="table">
+    <tr>
+        <th>
+           Part Number
+        </th>
+        <th>
+            FPR No.
+        </th>
+        <th>
+            FPR Date
+        </th>
+        <th>
+            RFI
+        </th>
+        <th>
+            Design Site
+        </th>
+               
+        <th>
+            Authorized Mech Eng
+        </th>
+        <th>
+           Mech Eng Date 
+        </th>    
+       
+      
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.PagedFirstPieceReports)
+{
+    <tr>
+        <td>
+           @Html.DisplayFor(modelItem => item.Inspections.PartNum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FPR)
+        </td>
+        <td>            
+            @if (item.FprDate != null)
+            {
+                @Html.DisplayFor(modelItem => item.FprDate, "ShortDateTime")
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RFI.RFI_Name)
+        </td>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.DesignSites.DesignSite)
+        </td>
+        <td>
+            @if (item.AuthorizedMechEng != null && item.AuthorizedMechEng != 0)
+            {
+                @((Model.Employees as List<IQCWeb.DTO.Employees>)
+                                .First(cs => cs.EmployeeCounter == item.AuthorizedMechEng).Name)
+            }
+        </td>
+        <td>
+            @if (item.MechEngDate != null)
+            {
+                @Html.DisplayFor(modelItem => item.MechEngDate, "ShortDateTime")
+            }
+        </td>
+        
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.FPR_ID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.FPR_ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.FPR_ID }) 
+           
+        </td>
+    </tr>
+}
+
+</table>
+
+@(Model.PagingInfo.CurrentPage) of @Model.PagingInfo.TotalPages
+
+
+@Html.PagedListPager(Model.PagedFirstPieceReports, page => Url.Action("Index", new { page }))
+
+

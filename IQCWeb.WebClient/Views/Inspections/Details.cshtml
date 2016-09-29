@@ -1,0 +1,269 @@
+﻿@model IQCWeb.DTO.Inspections
+
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Inspection Details</h2>
+
+<div>
+   
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            Record Type
+        </dt>
+        <dd>
+            @if (Model.IsInc != null)
+            {
+                if ((int)Model.IsInc > 0)
+                {
+                    <text>InProcess</text>
+                }
+                else
+                {
+                    <text>Incoming</text>
+                }
+            }
+        </dd>
+
+        <dt>
+            Part Number
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PartNum)
+        </dd>
+
+        <dt>
+            Part Description
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IIM.PartDesc)
+        </dd>
+
+        <dt>
+          Date Inspected
+        </dt>
+
+        <dd>
+            @Model.DateInspected.Value.ToString("d")
+        </dd>
+
+        <dt>
+            Inspector
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employees.Name)
+        </dd>
+
+        <dt>
+            QC In
+        </dt>
+
+        <dd>
+            @Model.QC_In.Value.ToString("d")
+        </dd>
+
+        <dt>
+            QC Out
+        </dt>
+
+        <dd>
+            @Model.QC_Out.Value.ToString("d")
+        </dd>
+
+
+        <dt>
+            Location
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Locations.Location)
+        </dd>
+
+
+        <dt>
+            Revision
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Revision)
+        </dd>
+
+        <dt>
+            Qty Received
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QtyReceived)
+        </dd>
+
+        <dt>
+            Sample Size
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SampleSize)
+        </dd>
+
+        <dt>
+            VendorID
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VendorID)
+        </dd>
+
+
+        <dt>
+            Vendor Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AVM.VendorName)
+        </dd>
+
+        <dt>
+            Country
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Countries.Country)          
+
+        </dd>
+
+        <dt>
+           Comments
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comments)
+        </dd>
+
+    </dl>
+
+    
+    <h4>Molds</h4>
+    <p>
+        @Html.ActionLink("Add Mold", "Create", "Molds", new { inspId = Model.InspID }, null)
+    </p>
+
+    <div id="divMolds" style="@(Model.Molds.Count == 0 ? "display:none" : "display:block")">
+        <table class="table">
+            <tr>
+                <th>
+                    Part Number
+                </th>
+                <th>
+                    Mold Number
+                </th>
+                <th>
+                    Number of Cavities
+                </th>
+                <th>
+                    Resin Used
+                </th>
+                <th>
+                    Mold Revision
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.Molds)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PartNum)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MoldNum)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumOfCavities)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ResinUsed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MoldRev)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "Molds", new { inspId = item.InspID, id = item.MoldID }, null) |
+                        @Html.ActionLink("Delete", "Delete", "Molds", new { inspId = item.InspID, id = item.MoldID }, null)
+                    </td>
+
+                </tr>
+            }
+
+        </table>
+    </div>
+
+
+    <h4>FPRs</h4>
+    <p>
+        @Html.ActionLink("Add FPR", "Create", "FirstPieceReports", new { inspId = Model.InspID }, null)
+    </p>
+
+    <div id="divFprs" style="@(Model.FirstPieceReports.Count == 0 ? "display:none" : "display:block")">
+        <table class="table">
+            <tr>
+                <th>
+                    FPR No.
+                </th>
+                <th>
+                    FPR Date
+                </th>
+                <th>
+                    Engineer Acceptance
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.FirstPieceReports)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FPR)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FprDate, "ShortDateTime")
+                    </td>
+                    <td>
+                        @if (item.AcceptMechEng != null)
+                        {
+                            if ((int)item.AcceptMechEng == 1)
+                            {
+                                <text>Accept. Part meet spec.</text>
+                            }
+                            else if ((int)item.AcceptMechEng > 0)
+                            {
+                                <text>Reject</text>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "FirstPieceReports", new { inspId = item.InspID, id = item.FPR_ID}, null) |
+                        @Html.ActionLink("Delete", "Delete", "FirstPieceReports", new { inspId = item.InspID, id = item.FPR_ID }, null)
+                    </td>
+
+                </tr>
+            }
+
+        </table>
+    </div>
+
+
+   
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+

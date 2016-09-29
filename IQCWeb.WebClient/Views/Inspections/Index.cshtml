@@ -1,0 +1,146 @@
+﻿@model IQCWeb.WebClient.Models.InspectionsViewModel
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+    @{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <h2>Inspections</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+       
+    </p>
+
+    @using (Html.BeginForm("Index", "Inspections", FormMethod.Get))
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.Label("Find by Part Number:", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { id = "txtSearch" })
+                <input type="submit" value="Search" class="btn btn-primary" />
+
+            </div>
+        </div>
+    }
+
+
+
+        <table class="table">
+            <tr>
+                <th>
+                    Part Number
+                </th>
+                <th>
+                    Date Inspected
+                </th>
+                <th>
+                    Revision
+                </th>
+                <th>
+                    Qty Received
+                </th>
+                <th>
+                    Sample Size
+                </th>
+                <th>
+                    VendorID
+                </th>
+                <th>
+                    Country
+                </th>
+                <th>
+                    Acceptance
+                </th>
+
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.Inspections)
+    {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PartNum)
+                    </td>
+                    <td>
+                        @if (item.DateInspected != null)
+                        {
+                            @Html.DisplayFor(modelItem => item.DateInspected, "ShortDateTime")
+                        }
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Revision)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QtyReceived)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SampleSize)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VendorID)
+                    </td>
+                    <td>
+                        @if (item.CountryID != null)
+                {
+                            @((Model.Countries as List<IQCWeb.DTO.Countries>)
+                            .First(cs => cs.CountryID == item.CountryID).Country)
+                }
+
+                    </td>
+                    <td>
+                        @if (item.Accept != null)
+                {
+                    if ((bool)item.Accept)
+                    {
+                        <text>PASS</text>
+                    }
+                    else
+                    {
+                        <text>FAIL</text>
+                    }
+                }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.InspID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.InspID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.InspID })
+                    </td>
+                </tr>
+    }
+
+        </table>
+
+        @(Model.PagingInfo.CurrentPage) of @Model.PagingInfo.TotalPages
+
+
+        @Html.PagedListPager(Model.Inspections, page => Url.Action("Index", new { page }))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

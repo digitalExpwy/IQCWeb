@@ -1,0 +1,5 @@
+Web API
+
+Web Client (MVC WebApp)
+
+API supports CRUD operations, sorting, paging, filtering

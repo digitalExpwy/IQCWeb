@@ -1,0 +1,215 @@
+﻿@model IQCWeb.WebClient.Models.FprViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>First Piece Report</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt >
+            FPR No.
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstPieceReport.FPR)
+        </dd>
+
+        <dt>
+            FPR Date
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstPieceReport.FprDate, "ShortDateTime")
+        </dd>
+
+        <dt>
+            RFI
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstPieceReport.RFI.RFI_Name)
+        </dd>
+
+        <dt>
+            Design Site
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstPieceReport.DesignSites.DesignSite)
+        </dd>
+
+        <dt>
+            Engineer Acceptance
+        </dt>
+
+        <dd>
+            @if (Model.FirstPieceReport.AcceptMechEng != null)
+            {
+                if ((int)Model.FirstPieceReport.AcceptMechEng == 1)
+                {
+                    <text>Accept. Part meet spec.</text>
+                }
+                else if ((int)Model.FirstPieceReport.AcceptMechEng > 0)
+                {
+                    <text>Reject</text>
+                }
+            }
+        </dd>
+
+        <dt>
+            QA Acceptance
+        </dt>
+
+        <dd>
+            @if (Model.FirstPieceReport.AcceptQA != null)
+            {
+                if ((int)Model.FirstPieceReport.AcceptQA == 1)
+                {
+                    <text>Accept</text>
+                }
+                else if ((int)Model.FirstPieceReport.AcceptQA > 0)
+                {
+                    <text>Reject</text>
+                }
+            }
+        </dd>
+
+        <dt>
+            Mech Engineer
+        </dt>
+
+        <dd>
+            @if (Model.FirstPieceReport.AuthorizedMechEng != null && Model.FirstPieceReport.AuthorizedMechEng != 0)
+            {
+                @((Model.Employees as List<IQCWeb.DTO.Employees>)
+                                .First(cs => cs.EmployeeCounter == Model.FirstPieceReport.AuthorizedMechEng).Name)
+            }
+        </dd>
+
+
+        <dt>
+            EPL
+        </dt>
+
+        <dd>
+            @if (Model.FirstPieceReport.EPL != null && Model.FirstPieceReport.EPL != 0)
+            {
+                @((Model.Employees as List<IQCWeb.DTO.Employees>)
+                                .First(cs => cs.EmployeeCounter == Model.FirstPieceReport.EPL).Name)
+            }
+        </dd>
+
+        <dt>
+            Mech Engineer Date
+        </dt>
+
+        <dd>
+            @{DateTime DefaultDate = new DateTime(1950, 1, 1);}
+            @if (Model.FirstPieceReport.MechEngDate != null && Model.FirstPieceReport.MechEngDate != DefaultDate)
+            {
+                @Html.DisplayFor(model => model.FirstPieceReport.MechEngDate, "ShortDateTime")
+            }
+        </dd>
+
+
+        <dt>
+            QA Date
+        </dt>
+
+        <dd>
+            @if (Model.FirstPieceReport.QADate != null && Model.FirstPieceReport.QADate != DefaultDate)
+            {
+                @Html.DisplayFor(model => model.FirstPieceReport.QADate, "ShortDateTime")
+            }
+        </dd>
+
+        <dt>
+            EPL Date
+        </dt>
+
+        <dd>
+            @if (Model.FirstPieceReport.EplDate != null && Model.FirstPieceReport.EplDate != DefaultDate)
+            {
+                @Html.DisplayFor(model => model.FirstPieceReport.EplDate, "ShortDateTime")
+            }
+        </dd>
+
+
+        <dt>
+            Comments to Purch
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstPieceReport.CommentsToPurchasing)
+        </dd>
+
+        <dt>
+            Comments to Eng
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstPieceReport.CommentsToEng)
+        </dd>
+
+
+        <dt>
+            QA Required
+        </dt>
+
+        <dd>
+            @if (Model.FirstPieceReport.QARequired != null)
+            {
+                if ((int)Model.FirstPieceReport.QARequired == 1)
+                {
+                    <text>Yes</text>
+                }
+                else
+                {
+                    <text>No</text>
+                }
+            }
+        </dd>
+
+
+        <dt style="@((int)Model.FirstPieceReport.AcceptMechEng > 1 ? "display:block" : "display:none")">
+            Reject Reason
+        </dt>
+
+        <dd style="@((int)Model.FirstPieceReport.AcceptMechEng > 1 ? "display:block" : "display:none")">
+            @Html.DisplayFor(model => model.FirstPieceReport.RejReason)
+        </dd>
+
+        <dt>
+            Out To Engineer
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstPieceReport.OutToEng)
+        </dd>
+
+        <dt>
+            Out To Date
+        </dt>
+
+        <dd>
+            @if (Model.FirstPieceReport.OutToDate != null && Model.FirstPieceReport.OutToDate != DefaultDate)
+            {
+                @Html.DisplayFor(model => model.FirstPieceReport.OutToDate, "ShortDateTime")
+            }
+        </dd>
+
+
+
+    </dl>
+
+</div>
+<p>
+    @Html.ActionLink("Inspection Details", "Details", "Inspections", new { id = Model.FirstPieceReport.InspID }, null)
+    <p></p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

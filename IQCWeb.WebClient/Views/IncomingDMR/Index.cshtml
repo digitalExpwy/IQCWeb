@@ -1,0 +1,92 @@
+﻿@model IQCWeb.WebClient.Models.DmrViewModel
+
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Incoming DMRs</h2>
+
+<p>    
+</p>
+<table class="table">
+    <tr>
+        <th>
+           Part Number
+        </th>
+        <th>
+            DMR No.
+        </th>
+        <th>
+            DMR Date
+        </th>
+        <th>
+            Reason
+        </th>
+                      
+        <th>
+            Approved By
+        </th>
+        <th>
+            Disposition Date 
+        </th>    
+       
+      
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.PagedIncomingDMR)
+{
+    <tr>
+        <td>
+           @Html.DisplayFor(modelItem => item.Inspections.PartNum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DMR)
+        </td>
+        <td>            
+            @if (item.DmrDate != null)
+            {
+                @Html.DisplayFor(modelItem => item.DmrDate, "ShortDateTime")
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Reasons.ReasonCode)
+        </td>
+       
+       
+        <td>
+            @if (item.ApprovedBy != null && item.ApprovedBy != 0)
+            {
+                @((Model.Employees as List<IQCWeb.DTO.Employees>)
+                                .First(cs => cs.EmployeeCounter == item.ApprovedBy).Name)
+            }
+        </td>
+        <td>
+            @if (item.DispDate != null)
+            {
+                @Html.DisplayFor(modelItem => item.DispDate, "ShortDateTime")
+            }
+        </td>
+        
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.DMR_ID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.DMR_ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.DMR_ID }) 
+           
+        </td>
+    </tr>
+}
+
+</table>
+
+@(Model.PagingInfo.CurrentPage) of @Model.PagingInfo.TotalPages
+
+
+@Html.PagedListPager(Model.PagedIncomingDMR, page => Url.Action("Index", new { page }))
+
+
